@@ -3,18 +3,15 @@ plugins {
     id 'io.qameta.allure' version '3.0.1'
 }
 
-
 repositories {
     mavenCentral()
 }
-
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
@@ -27,23 +24,21 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
 
-
 tasks.withType(Test).configureEach {
+    def tag = System.getProperty("platform", "android").toLowerCase()
+
     useJUnitPlatform {
-        includeTags(System.getProperty("platform", "android").toLowerCase())
+        includeTags tag
     }
-
     systemProperties(System.getProperties())
-
     systemProperty "bs.user", System.getenv("BROWSERSTACK_USER") ?: System.getProperty("bs.user")
-    systemProperty "bs.key", System.getenv("BROWSERSTACK_KEY") ?: System.getProperty("bs.key")
-
+    systemProperty "bs.key",  System.getenv("BROWSERSTACK_KEY")  ?: System.getProperty("bs.key")
+    systemProperty "allure.results.directory", "$buildDir/allure-results"
 
     testLogging {
         events "passed", "skipped", "failed"
     }
 }
-
 
 allure {
     version.set("2.29.1")
@@ -54,7 +49,6 @@ allure {
         }
     }
 }
-
 
 tasks.named("allureReport") {
     dependsOn test

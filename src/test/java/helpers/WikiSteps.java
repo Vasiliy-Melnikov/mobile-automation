@@ -2,6 +2,7 @@ package helpers;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,6 +15,7 @@ public class WikiSteps {
 
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(20);
 
+    @Step("Skip onboarding если показывается")
     public static void skipOnboardingIfPresent(AppiumDriver driver) {
         closeBlockingPopupsIfPresent(driver);
 
@@ -27,6 +29,7 @@ public class WikiSteps {
         closeBlockingPopupsIfPresent(driver);
     }
 
+    @Step("Open search")
     public static void openSearch(AppiumDriver driver) {
         closeBlockingPopupsIfPresent(driver);
 
@@ -47,6 +50,7 @@ public class WikiSteps {
         el.click();
     }
 
+    @Step("Wait for search input")
     public static WebElement waitForSearchInput(AppiumDriver driver) {
         closeBlockingPopupsIfPresent(driver);
 
@@ -60,6 +64,7 @@ public class WikiSteps {
         });
     }
 
+    @Step("Open search result by title: {title}")
     public static void openSearchResultByTitle(AppiumDriver driver, String title) {
         closeBlockingPopupsIfPresent(driver);
 
@@ -95,6 +100,7 @@ public class WikiSteps {
         tapCenter(driver, tv);
     }
 
+    @Step("Wait until article opened and get title element")
     public static WebElement waitForArticleOpened(AppiumDriver driver) {
         closeBlockingPopupsIfPresent(driver);
 
@@ -104,6 +110,7 @@ public class WikiSteps {
                 .until(d -> d.findElement(title));
     }
 
+    @Step("Close blocking popups if present")
     private static void closeBlockingPopupsIfPresent(AppiumDriver driver) {
         closeYearInReviewIfPresent(driver);
         closeWikipediaGamesIfPresent(driver);
