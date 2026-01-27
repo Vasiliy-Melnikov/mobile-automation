@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '3.0.1'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'com.codeborne:selenide:7.6.1'
+    testImplementation 'io.appium:java-client:10.0.0'
+    testImplementation 'org.aeonbits.owner:owner:1.0.12'
+    testImplementation 'io.rest-assured:rest-assured:5.4.0'
+    testImplementation 'io.qameta.allure:allure-junit5:2.29.1'
+    testImplementation 'io.qameta.allure:allure-selenide:2.29.1'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
+}
+
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform {
+        includeTags(System.getProperty("platform", "android").toLowerCase())
+    }
+
+    systemProperties(System.getProperties())
+
+    systemProperty "bs.user", System.getenv("BROWSERSTACK_USER") ?: System.getProperty("bs.user")
+    systemProperty "bs.key", System.getenv("BROWSERSTACK_KEY") ?: System.getProperty("bs.key")
+
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+
+allure {
+    version.set("2.29.1")
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 { enabled.set(true) }
+        }
+    }
+}
+
+
+tasks.named("allureReport") {
+    dependsOn test
+}
