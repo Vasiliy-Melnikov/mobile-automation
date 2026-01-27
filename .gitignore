@@ -74,6 +74,10 @@ replay_pid*
 .gradle
 **/build/
 !src/**/build/
+gradle/wrapper/
+gradlew
+gradlew.bat
+settings.gradle
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -97,4 +101,7 @@ gradle-app.setting
 # Java heap dump
 *.hprof.idea/
 *.iml
-/apps/
+
+# Allure
+allure-results
+allure-report
