@@ -18,7 +18,7 @@ public class WikiSteps {
         this.article = new ArticleScreen(driver);
     }
 
-    @Step("Skip onboarding если показывается")
+    @Step("Skip onboarding")
     public void skipOnboardingIfPresent() {
         home.skipOnboardingIfPresent();
     }
