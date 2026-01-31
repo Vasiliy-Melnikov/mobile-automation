@@ -1,25 +1,26 @@
 package tests;
 
-import helpers.WikiSteps;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import steps.WikiSteps;
 
 @Tag("android")
 public class AndroidWikipediaTests extends TestBase {
 
     @Test
     void openAnyArticleTest() {
-        WikiSteps.skipOnboardingIfPresent(driver);
-        WikiSteps.openSearch(driver);
+        WikiSteps steps = new WikiSteps(driver);
 
-        WikiSteps.waitForSearchInput(driver).sendKeys("Selenide");
-        WikiSteps.openSearchResultByTitle(driver, "Selenide");
+        steps.skipOnboardingIfPresent();
+        steps.openSearch();
+        steps.typeSearchQuery("Selenide");
+        steps.openSearchResultByTitle("Selenide");
 
-        String title = WikiSteps.waitForArticleOpened(driver).getText();
-        Assertions.assertEquals("Selenide", title);
+        Assertions.assertEquals("Selenide", steps.getOpenedArticleTitle());
     }
 }
+
 
 
 
